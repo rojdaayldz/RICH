@@ -1,4 +1,5 @@
-Rojda
+ROJDA'NIN GEREKSİNİMLERİ
+
 1. ÖDEME YAPMA : Kullanıcının ödeme adımıdır. 
 
 2. FAVORİLER : Kullanıcıların beğendikleri ürünlerin listelendiği yerdir. 
