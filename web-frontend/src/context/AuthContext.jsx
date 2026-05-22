@@ -48,7 +48,9 @@ const register = async (name, email, password) => {
 
       if (!response.ok) return false;
 
-      await response.json();
+      const data = await response.json(); // { message, userId, fullName, email }
+      localStorage.setItem("user", JSON.stringify(data)); // tarayıcıya kaydet
+      setUser(data); // state'e yaz, sayfa yenilenince kaybolmaz
       return true;
 
     } catch (error) {
@@ -66,6 +68,7 @@ const register = async (name, email, password) => {
   const deleteAccount = async () => {
     if (!user?.userId) return false;
 
+<<<<<<< HEAD
     try {
       const response = await fetch(`${API_URL}/delete/${encodeURIComponent(user.userId)}`, {
         method: "DELETE",
@@ -84,6 +87,19 @@ const register = async (name, email, password) => {
       console.error("Hesap silme hatasi:", error);
       return false;
     }
+=======
+    const response = await fetch(`${API_URL}/delete/${user.userId}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      localStorage.removeItem("user");
+      setUser(null);
+      return true;
+    }
+
+    return false;
+>>>>>>> d3f01afddca5b77247ebfe72b70466fbb430e9bc
   };
 
   const addToCart = (product) => {
