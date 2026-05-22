@@ -10,7 +10,9 @@ namespace RichBackend.Models
         public DbSet<AddressRequest> Addresses { get; set; }
         public DbSet<FavoriteRequest> Favorites { get; set; }
         public DbSet<Product> Products { get; set; } 
-        public DbSet<User> Users { get; set; }
+        
+        // İsim çakışmasını önlemek için tam namespace (RichBackend.Models.User) ile tanımlıyoruz
+        public DbSet<RichBackend.Models.User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -18,6 +20,9 @@ namespace RichBackend.Models
             modelBuilder.Entity<PaymentRequest>().ToTable("Payments");
             modelBuilder.Entity<FavoriteRequest>().ToTable("Favorites");
             modelBuilder.Entity<Product>().ToTable("Products");
+            
+            // Eksik olan User tablosu eşlemesini buraya ekledik:
+            modelBuilder.Entity<RichBackend.Models.User>().ToTable("Users");
         }
     }
 }
