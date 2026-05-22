@@ -1,6 +1,0 @@
-@RichBackend_HostAddress = http://localhost:5227
-
-GET {{RichBackend_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
