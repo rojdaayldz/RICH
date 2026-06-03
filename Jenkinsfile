@@ -1,22 +1,38 @@
 pipeline {
     agent any
+
     stages {
-        stage('Temizlik ve Hazırlık') {
+        stage('Restore Backend') {
             steps {
-                sh 'docker stop api-cont frontend-cont || true'
-                sh 'docker rm api-cont frontend-cont || true'
+                bat 'dotnet restore RichBackend/RichBackend.csproj'
             }
         }
-        stage('Docker Build ve Run') {
-            steps {
-                script {
-                    // Docker'a package.json'ın web-frontend içinde olduğunu söylüyoruz
-                    sh 'docker build -f Dockerfile.api -t rich-api ./web-frontend'
-                    sh 'docker run -d --name api-cont -p 5000:5000 rich-api'
 
-                    sh 'docker build -t rich-frontend ./web-frontend'
-                    sh 'docker run -d --name frontend-cont -p 80:80 rich-frontend'
+        stage('Build Backend') {
+            steps {
+                bat 'dotnet build RichBackend/RichBackend.csproj --no-restore'
+            }
+        }
+
+        stage('Install Frontend') {
+            steps {
+                dir('web-frontend') {
+                    bat 'npm install'
                 }
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                dir('web-frontend') {
+                    bat 'npm run build'
+                }
+            }
+        }
+
+        stage('Docker Compose Config') {
+            steps {
+                bat 'docker compose config'
             }
         }
     }
