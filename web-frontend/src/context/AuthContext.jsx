@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-const register = async (name, email, password) => {
+  const register = async (name, email, password) => {
     try {
       const response = await fetch(`${API_URL}/register`, {
         method: "POST",
@@ -48,11 +48,10 @@ const register = async (name, email, password) => {
 
       if (!response.ok) return false;
 
-      const data = await response.json(); // { message, userId, fullName, email }
-      localStorage.setItem("user", JSON.stringify(data)); // tarayıcıya kaydet
-      setUser(data); // state'e yaz, sayfa yenilenince kaybolmaz
+      const data = await response.json();
+      localStorage.setItem("user", JSON.stringify(data));
+      setUser(data);
       return true;
-
     } catch (error) {
       console.error("Register hatası:", error);
       return false;
@@ -60,7 +59,12 @@ const register = async (name, email, password) => {
   };
 
   const logout = async () => {
-    await fetch(`${API_URL}/logout`, { method: "POST" });
+    try {
+      await fetch(`${API_URL}/logout`, { method: "POST" });
+    } catch (error) {
+      console.error("Logout hatası:", error);
+    }
+
     localStorage.removeItem("user");
     setUser(null);
   };
@@ -68,7 +72,6 @@ const register = async (name, email, password) => {
   const deleteAccount = async () => {
     if (!user?.userId) return false;
 
-<<<<<<< HEAD
     try {
       const response = await fetch(`${API_URL}/delete/${encodeURIComponent(user.userId)}`, {
         method: "DELETE",
@@ -81,25 +84,12 @@ const register = async (name, email, password) => {
       }
 
       const error = await response.json().catch(() => null);
-      console.error("Hesap silme hatasi:", error?.message || response.statusText);
+      console.error("Hesap silme hatası:", error?.message || response.statusText);
       return false;
     } catch (error) {
-      console.error("Hesap silme hatasi:", error);
+      console.error("Hesap silme hatası:", error);
       return false;
     }
-=======
-    const response = await fetch(`${API_URL}/delete/${user.userId}`, {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      localStorage.removeItem("user");
-      setUser(null);
-      return true;
-    }
-
-    return false;
->>>>>>> d3f01afddca5b77247ebfe72b70466fbb430e9bc
   };
 
   const addToCart = (product) => {
