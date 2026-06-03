@@ -1,1 +1,5 @@
-RICH deploy OK - bu dosya aciliyorsa static dosyalar Vercel'e yukleniyor.
+RICH frontend deploy check
+- Vite build assets prepared
+- API environment must be configured
+- Static fallback: vercel.json
+- Generated for Buket public asset/build sync commit
