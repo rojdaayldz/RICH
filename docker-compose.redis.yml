@@ -4,4 +4,4 @@ services:
     container_name: rich-redis
     ports:
       - "6379:6379"
-    command: ["redis-server", "--appendonly", "yes"]
+    restart: unless-stopped
