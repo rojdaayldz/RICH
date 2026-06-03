@@ -15,7 +15,11 @@ const Register = ({ setActiveTab }) => {
       if (!value) return "Email boş bırakılamaz.";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Geçerli bir email adresi girin.";
     }
-    if (field === "phone" && value && !/^\\+?[0-9\\s()-]{10,20}$/.test(value)) return "Geçerli bir telefon numarası girin.";\n    if (field === "password") {
+    if (field === "phone" && value && !/^\+?[0-9\s()-]{10,20}$/.test(value)) {
+  return "Geçerli bir telefon numarası girin.";
+}
+
+if (field === "password") {
       if (value.length < 8) return "En az 8 karakter olmalıdır.";
       if (!/[A-Z]/.test(value)) return "En az bir büyük harf içermelidir.";
       if (!/[a-z]/.test(value)) return "En az bir küçük harf içermelidir.";
