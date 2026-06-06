@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+﻿import React, { useState, useContext } from 'react'
 import './App.css'
 import Odeme from './pages/odeme'
 import Adres from './pages/adres'
@@ -12,6 +12,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import { AuthContext } from './context/AuthContext'
 import Kategori from './components/Kategori'
+import RojdaMobileBackend from './pages/RojdaMobileBackend'
 
 function App() {
   const [activeTab, setActiveTab] = useState('magaza')
@@ -24,9 +25,9 @@ function App() {
   }
 
   const handleDeleteAccount = () => {
-    const confirm1 = window.confirm("Hesabınızı silmek istediğinize emin misiniz?")
+    const confirm1 = window.confirm("HesabÄ±nÄ±zÄ± silmek istediÄŸinize emin misiniz?")
     if (!confirm1) return
-    const confirm2 = window.confirm("Bu işlem geri alınamaz. Devam etmek istiyor musunuz?")
+    const confirm2 = window.confirm("Bu iÅŸlem geri alÄ±namaz. Devam etmek istiyor musunuz?")
     if (confirm2) {
       deleteAccount()
       setActiveTab('magaza')
@@ -48,11 +49,11 @@ function App() {
 
         <div className="nav-links-modern">
           <button onClick={() => { setActiveTab('magaza'); setSelectedCategory('') }}>
-            Mağaza
+            MaÄŸaza
           </button>
 
           <div className="dropdown-modern">
-            <button className="dropbtn-modern">Kategoriler ▾</button>
+            <button className="dropbtn-modern">Kategoriler â–¾</button>
             <div className="dropdown-content-modern">
               {['kadin', 'erkek', 'bebek', 'aksesuar'].map((kat) => (
                 <button
@@ -66,20 +67,21 @@ function App() {
           </div>
 
           <button onClick={() => setActiveTab('favoriler')}>Favoriler</button>
+          <button onClick={() => setActiveTab('rojdaMobileBackend')}>Rojda API</button>
 
           {user ? (
             <>
-              <button onClick={() => setActiveTab('hesabim')}>Hesabım</button>
+              <button onClick={() => setActiveTab('hesabim')}>HesabÄ±m</button>
               <span style={{ color: '#c8a96e', fontSize: '12px', letterSpacing: '1px' }}>
                 {user.fullName || user.email}
               </span>
               <button onClick={handleLogout} style={{ color: '#e57373' }}>
-                Çıkış
+                Ã‡Ä±kÄ±ÅŸ
               </button>
             </>
           ) : (
             <>
-              <button onClick={() => setActiveTab('login')}>Giriş</button>
+              <button onClick={() => setActiveTab('login')}>GiriÅŸ</button>
               <button
                 onClick={() => setActiveTab('register')}
                 style={{
@@ -89,7 +91,7 @@ function App() {
                   padding: '8px 16px',
                 }}
               >
-                Kayıt Ol
+                KayÄ±t Ol
               </button>
             </>
           )}
@@ -98,7 +100,7 @@ function App() {
         <div className="nav-right">
           <Arama />
           <button className="cart-icon-btn" onClick={() => setActiveTab('sepet')}>
-            🛒 {cart.length > 0 && (
+            ğŸ›’ {cart.length > 0 && (
               <span style={{
                 fontSize: '10px',
                 background: '#c8a96e',
@@ -119,7 +121,7 @@ function App() {
 
         {activeTab === 'magaza' && (
           <>
-            {/* Hero — sadece kategori seçili değilken */}
+            {/* Hero â€” sadece kategori seÃ§ili deÄŸilken */}
             {!selectedCategory && (
               <div style={{
                 background: 'linear-gradient(135deg, #060b14 0%, #0f1f3d 60%, #060b14 100%)',
@@ -139,7 +141,7 @@ function App() {
                     textTransform: 'uppercase',
                     marginBottom: '16px',
                   }}>
-                    2026 İlkbahar — Yaz
+                    2026 Ä°lkbahar â€” Yaz
                   </p>
                   <h1 style={{
                     fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -167,7 +169,7 @@ function App() {
                       cursor: 'pointer',
                     }}
                   >
-                    Keşfet
+                    KeÅŸfet
                   </button>
                 </div>
 
@@ -195,7 +197,7 @@ function App() {
                     marginBottom: '24px',
                   }}>Premium E-Ticaret</div>
                   <div style={{ display: 'flex', gap: '24px' }}>
-                    {[['4.8', 'Puan'], ['2K+', 'Ürün'], ['%100', 'Güvenli']].map(([val, label]) => (
+                    {[['4.8', 'Puan'], ['2K+', 'ÃœrÃ¼n'], ['%100', 'GÃ¼venli']].map(([val, label]) => (
                       <div key={label} style={{ textAlign: 'center' }}>
                         <div style={{
                           fontFamily: "'Cormorant Garamond', Georgia, serif",
@@ -222,6 +224,8 @@ function App() {
           </>
         )}
 
+        {activeTab === 'rojdaMobileBackend' && <RojdaMobileBackend />}
+
         {activeTab === 'favoriler' && <Favoriler />}
 
         {activeTab === 'sepet' && (
@@ -241,7 +245,7 @@ function App() {
               borderBottom: '1px solid #1e2d4a',
               paddingBottom: '16px',
             }}>
-              Hesabım
+              HesabÄ±m
             </div>
             <Adres />
             <Siparislerim />
@@ -262,7 +266,7 @@ function App() {
                 alignSelf: 'flex-start',
               }}
             >
-              Hesabı Sil
+              HesabÄ± Sil
             </button>
           </div>
         )}
@@ -273,10 +277,12 @@ function App() {
 
       {/* FOOTER */}
       <footer className="footer-modern">
-        © 2026 RICH E-Commerce — SDÜ Bilgisayar Mühendisliği
+        Â© 2026 RICH E-Commerce â€” SDÃœ Bilgisayar MÃ¼hendisliÄŸi
       </footer>
     </div>
   )
 }
 
 export default App
+
+
