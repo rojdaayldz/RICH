@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 const Register = ({ setActiveTab }) => {
   const { register } = useContext(AuthContext);
 
-  const [form, setForm] = useState({ isim: "", soyisim: "", email: "", password: "" });
+  const [form, setForm] = useState({ isim: "", soyisim: "", email: "", phone: "", password: "" });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +15,11 @@ const Register = ({ setActiveTab }) => {
       if (!value) return "Email boş bırakılamaz.";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Geçerli bir email adresi girin.";
     }
-    if (field === "password") {
+    if (field === "phone" && value && !/^\+?[0-9\s()-]{10,20}$/.test(value)) {
+  return "Geçerli bir telefon numarası girin.";
+}
+
+if (field === "password") {
       if (value.length < 8) return "En az 8 karakter olmalıdır.";
       if (!/[A-Z]/.test(value)) return "En az bir büyük harf içermelidir.";
       if (!/[a-z]/.test(value)) return "En az bir küçük harf içermelidir.";
@@ -32,7 +36,7 @@ const Register = ({ setActiveTab }) => {
 
   const isFormValid =
     form.isim.trim() && form.soyisim.trim() && form.email.trim() && form.password.trim() &&
-    !errors.isim && !errors.soyisim && !errors.email && !errors.password;
+    !errors.isim && !errors.soyisim && !errors.email && !errors.phone && !errors.password;
 
   const getStrength = (pw) => {
     let s = 0;
@@ -51,7 +55,7 @@ const Register = ({ setActiveTab }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const success = await register(`${form.isim} ${form.soyisim}`, form.email, form.password);
+      const success = await register(`${form.isim} ${form.soyisim}`, form.email, form.password, form.phone);
       if (success) {
         alert("✅ Kayıt işlemi başarılı! Giriş yapabilirsiniz.");
         setActiveTab("login");
@@ -113,6 +117,17 @@ const Register = ({ setActiveTab }) => {
               style={{ ...styles.input, borderColor: errors.email ? "#e57373" : "#1e2d4a" }}
             />
             {errors.email && <span style={styles.error}>{errors.email}</span>}
+          </div>
+
+          {/* Telefon */}
+          <div style={styles.field}>
+            <label style={styles.label}>Telefon</label>
+            <input
+              type="tel" name="phone" placeholder="05xx xxx xx xx"
+              value={form.phone} onChange={handleChange}
+              style={{ ...styles.input, borderColor: errors.phone ? "#e57373" : "#1e2d4a" }}
+            />
+            {errors.phone && <span style={styles.error}>{errors.phone}</span>}
           </div>
 
           {/* Parola */}

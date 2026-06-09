@@ -1,41 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, FlatList, View, StyleSheet } from "react-native";
-
-const API_BASE_URL = "http://localhost:5227";
+import React, { useState } from "react";
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import AuthScreen from "./screens/AuthScreen";
+import BuketMobileFrontend from "./screens/BuketMobileFrontend";
 
 export default function App() {
-  const [products, setProducts] = useState([]);
+  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/api/products`)
-      .then((res) => res.json())
-      .then(setProducts)
-      .catch((err) => console.log("API hatası:", err));
-  }, []);
+  if (!user) {
+    return (
+      <SafeAreaView style={styles.page}>
+        <StatusBar style="light" />
+        <AuthScreen onLogin={setUser} />
+      </SafeAreaView>
+    );
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.logo}>RICH</Text>
-      <Text style={styles.title}>Mobil Ürün Listesi</Text>
-      <FlatList
-        data={products}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text>{item.category} / {item.renk} / {item.beden}</Text>
-            <Text>{item.price} TL</Text>
-          </View>
-        )}
-      />
+    <SafeAreaView style={styles.page}>
+      <StatusBar style="light" />
+      <View style={styles.topBar}>
+        <View>
+          <Text style={styles.logo}>RICH</Text>
+          <Text style={styles.userText}>Buket Mobile Front-End · {user.email}</Text>
+        </View>
+        <TouchableOpacity style={styles.logoutBtn} onPress={() => setUser(null)}>
+          <Text style={styles.logoutText}>Çıkış</Text>
+        </TouchableOpacity>
+      </View>
+      <BuketMobileFrontend />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, backgroundColor: "#071225" },
-  logo: { color: "#fff", fontSize: 34, letterSpacing: 8, textAlign: "center", marginBottom: 16 },
-  title: { color: "#d6a84f", fontSize: 18, marginBottom: 16 },
-  card: { backgroundColor: "#fff", padding: 14, borderRadius: 10, marginBottom: 10 },
-  name: { fontWeight: "bold", fontSize: 16 }
+  page: { flex: 1, backgroundColor: "#071122" },
+  topBar: { paddingTop: 34, paddingHorizontal: 18, paddingBottom: 12, backgroundColor: "#071122", borderBottomColor: "#1e2d4a", borderBottomWidth: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" },
+  logo: { color: "#fff", fontSize: 24, letterSpacing: 9, fontWeight: "700" },
+  userText: { color: "#8ea0ba", fontSize: 11, marginTop: 4 },
+  logoutBtn: { borderColor: "#2b4064", borderWidth: 1, borderRadius: 999, paddingVertical: 7, paddingHorizontal: 12 },
+  logoutText: { color: "#d7ad5b", fontWeight: "800", fontSize: 12 },
 });
